@@ -1,13 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div class="header">
+      <Header />
+    </div>
+    <div id="nav"> 
+      <router-link to="/about">About</router-link>|
+      <router-link to="/login">Login</router-link>|
+      <router-link to="/register">Register</router-link>|
+      <router-link to="/secret">Secret</router-link>|
     </div>
     <router-view />
   </div>
 </template>
-
+<script>
+import Header from '@/components/shared/Header'
+export default {
+  components:{Header}
+}
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
