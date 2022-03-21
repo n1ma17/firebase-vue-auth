@@ -1,43 +1,12 @@
 <template>
-  <div>
-    <div v-if="error">{{ error.message }}</div>
-    register
-    <form @submit.prevent="submited">
-      <div class="email">
-        <input v-model="email" type="email" name="email" id="email" />
-      </div>
-      <div class="password">
-        <input v-model="password" type="password" name="password" id="pass" />
-      </div>
-      <button type="submit">register</button>
-    </form>
-  </div>
+  <AuthForm type="register" title="Register" />
 </template>
 
 <script>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-
+import AuthForm from "@/components/AuthForm";
 export default {
-  data() {
-    return {
-      error: "",
-      email: "",
-      password: "",
-    };
-  },
-  methods: {
-    submited() {
-      createUserWithEmailAndPassword(getAuth(), this.email, this.password)
-        .then((userCredential) => {
-          const user = userCredential;
-          console.log({user});
-          this.$router.replace({ name: "secret" });
-        })
-        .catch((e) => {
-          console.log({e});
-        });
-    },
-  },
+  name: "Register",
+  components: { AuthForm },
 };
 </script>
 

@@ -1,42 +1,74 @@
 <template>
-  <div id="app">
-    <div class="header">
-      <Header />
-    </div>
-    <div id="nav"> 
-      <router-link to="/about">About</router-link>|
-      <router-link to="/login">Login</router-link>|
-      <router-link to="/register">Register</router-link>|
-      <router-link to="/secret">Secret</router-link>|
-    </div>
-    <router-view />
-  </div>
+  <v-app>
+    <v-container
+      ><v-app-bar elevate-on-scroll flat app color="black">
+        <v-btn color="#560bad" text class="body" @click="signOut">
+          signout
+        </v-btn>
+        <v-btn disabled dark text>{{ user }}</v-btn>
+        <v-spacer></v-spacer>
+        <div v-for="(item, i) in menu" class="px-3 menu-items" :key="i">
+          <router-link :to="item.route">{{ item.text }}</router-link>
+        </div>
+      </v-app-bar></v-container
+    >
+    <v-main>
+        <v-container class="pt-6">
+          <router-view />
+        </v-container>
+    </v-main>
+  </v-app>
 </template>
+
 <script>
-import Header from '@/components/shared/Header'
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
 export default {
-  components:{Header}
-}
+  name: "App",
+  data() {
+    return {
+      user: null,
+      menu: [
+        {
+          route: "/",
+          text: "Login",
+        },
+        {
+          route: "/register",
+          text: "Register",
+        },
+        {
+          route: "/secret",
+          text: "Secret",
+        },
+      ],
+    };
+  },
+  created() {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        this.user = user.email;
+      } else {
+        this.signOut();
+      }
+    });
+  },
+  methods: {
+    signOut() {
+      signOut(getAuth())
+        .then(() => {
+          this.user = null;
+          this.$router.replace({ name: "login" });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+  color: #fff !important;
 }
 </style>

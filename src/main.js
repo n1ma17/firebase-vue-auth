@@ -2,8 +2,9 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import axios from 'axios';
+import axios from "axios";
 import { initializeApp } from "firebase/app";
+import vuetify from "./plugins/vuetify";
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false;
@@ -14,7 +15,7 @@ const firebaseConfig = {
   projectId: "jwt-auth-7c6db",
   storageBucket: "jwt-auth-7c6db.appspot.com",
   messagingSenderId: "198441382562",
-  appId: "1:198441382562:web:41c07daa0404a590a55dfb"
+  appId: "1:198441382562:web:41c07daa0404a590a55dfb",
 };
 // Initialize Firebase
 initializeApp(firebaseConfig);
@@ -22,5 +23,6 @@ initializeApp(firebaseConfig);
 new Vue({
   router,
   store,
+  vuetify,
   render: (h) => h(App),
 }).$mount("#app");
