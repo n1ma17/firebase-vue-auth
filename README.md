@@ -1,4 +1,4 @@
-# jwt-auth
+# firebase-auth
 
 ## Project setup
 ```
